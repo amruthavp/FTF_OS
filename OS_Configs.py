@@ -212,7 +212,7 @@ def get_all(script):
     fibre_ethernet_storage_details(script)
     topology(script)
 
-def get_os_resource(script):
+def OS_configs(script):
         conn = script.conn
         info_option = script.args.get_info
         if str(info_option) == '-h':
@@ -281,7 +281,7 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("get_os_resource", test_code=get_os_resource)
+    script.add_testcase(" OS_configs",  OS_configs)
     script.setup()
     script.run()
 script.log.info('=' * 30)
