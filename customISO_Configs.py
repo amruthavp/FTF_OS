@@ -3,13 +3,10 @@ import re
 from ftflib.ftf_script import FtfScript
 from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.toolbox import get_match
-from tests.demo.OSOS import system_log, clear_cae,show_cae, ethcard_details
+from tests.demo.OSOS import system_log, clear_cae, ethcard_details
 
 def clearcae(script):
     clear_cae(script)
-
-def showcae(script):
-    show_cae(script)
 
 def systemlog(script):
     system_log(script)
