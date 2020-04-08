@@ -240,7 +240,7 @@ def get_os_resource(script):
             clear_cae(script)
         elif str(info_option) in ("fm", "firmware info"):
             script.log.info('Calling firmware information function')
-            firmwareinfo(script)
+            firmware_info(script)
         elif str(info_option) in ("par", "par_details"):
             script.log.info('Calling get_log_sheet function')
             par_details(script)
