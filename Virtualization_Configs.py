@@ -15,24 +15,22 @@ def systemlog(script):
 def kernelversion(script):
     kernel_version(script)
 
-def virsh(script):
+def guests_created(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    virsh_cmd=console.run("virsh list --all")
-    #console.run('y')
-    #console.run('y')
-    script.log.info("Guests created are {}".format(virsh_cmd))
+    guests_info=console.run("virsh list --all")
+    script.log.info("Guests created are {}".format(guests_info))
 
-def stat_commands(script):
+def device_stats(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    iostat_cmd = console.run("iostat")
+    io_stas = console.run("iostat")
     script.log.info("iostat information {}".format(iostat_cmd))
-    vmstat_cmd = console.run("vmstat")
+    vm_stat = console.run("vmstat")
     script.log.info("vmstat information {}".format(vmstat_cmd))
-    mpstat_cmd = console.run("mpstat")
+    mp_stat_cmd = console.run("mpstat")
     script.log.info("mpstat information {}".format(mpstat_cmd))
 
 def cpu_memory_match(script):
@@ -64,10 +62,10 @@ def get_os_resource(script):
         kernelversion(script)
     elif str(info_option) in ("v", "virsh"):
         script.log.info('Calling virsh function')
-        virsh(script)
+        guests_created(script)
     elif str(info_option) in ("i", "iostat, mpstat, vmstat informations"):
         script.log.info('Calling iostat, mpstat, vmstat function')
-        stat_commands(script)
+        device_stats(script)
     elif str(info_option) in ("cpu", "get memory and cpu information"):
         script.log.info('Calling cpu information function')
         cpu_memory_match(script)
@@ -83,14 +81,12 @@ def get_os_resource(script):
 
 
 def get_all(script):
-    #clearcae(script)
-    #showcae(script)
     systemlog(script)
     kernelversion(script)
-    stat_commands(script)
+    device_stats(script)
     cpu_memory_match(script) 
     ethernet_info(script)
-    virsh(script)
+    guests_created(script)
     topology_info(script)
 
 def my_setup(script):
