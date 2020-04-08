@@ -3,14 +3,11 @@ import sys
 from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.ftf_script import FtfScript
 from ftflib.toolbox import get_match
-from tests.demo.OSOS import cpu_match,memory_match,system_log,clear_cae,show_cae,kernel_version,topology
+from tests.demo.OSOS import cpu_match,memory_match,system_log,clear_cae,kernel_version,topology
 from tests.mcs.resource_check_os.get_os_resourse import *
 
 def clearcae(script):
     clear_cae(script)
-
-def showcae(script):
-    show_cae(script)
 
 def systemlog(script):
     system_log(script)
@@ -22,39 +19,29 @@ def virsh(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    buffer5=console.run("virsh list --all")
+    virsh_cmd=console.run("virsh list --all")
     #console.run('y')
     #console.run('y')
-    script.log.info("Guests created are {}".format(buffer5))
+    script.log.info("Guests created are {}".format(virsh_cmd))
 
-def statcommands(script):
+def stat_commands(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    buffer8 = console.run("iostat")
-    script.log.info("iostat information {}".format(buffer8))
-    buffer9 = console.run("vmstat")
-    script.log.info("vmstat information{}".format(buffer9))
-    buffer10 = console.run("mpstat")
-    script.log.info("mpstat information{}".format(buffer10))
+    iostat_cmd = console.run("iostat")
+    script.log.info("iostat information {}".format(iostat_cmd))
+    vmstat_cmd = console.run("vmstat")
+    script.log.info("vmstat information {}".format(vmstat_cmd))
+    mpstat_cmd = console.run("mpstat")
+    script.log.info("mpstat information {}".format(mpstat_cmd))
 
-def cpumatch(script):
+def cpu_memory_match(script):
     cpu_match(script)
-
-def memorymatch(script):
     memory_match(script)
 
 def ethernet(script):
     script.conn = script.par.get_console_conn()
     get_ethernet(script)
-
-def storage(script):
-    script.conn = script.par.get_console_conn()
-    get_storage(script)
-
-def fibre(script):
-    script.conn = script.par.get_console_conn()
-    get_fibre(script)
 
 def topology_info(script):
    topology(script)
@@ -72,9 +59,6 @@ def get_os_resource(script):
     elif str(info_option) in ("c", "clear cae"):
         script.log.info('Calling clear logs function')
         clearcae(script)
-    elif str(info_option) in ("cae", "show cae"):
-        script.log.info('Calling cae logs function')
-        showcae(script)
     elif str(info_option) in ("k", "kernel build version"):
         script.log.info('Calling kernel version function')
         kernelversion(script)
@@ -86,19 +70,10 @@ def get_os_resource(script):
         statcommands(script)
     elif str(info_option) in ("cpu", "get cpu"):
         script.log.info('Calling cpu information function')
-        cpumatch(script)
-    elif str(info_option) in ("mem", "get memory"):
-        script.log.info('Calling memory information function')
-        memorymatch(script)
+        cpu_memory_match(script)
     elif str(info_option) in ("io", "get IO"):
         script.log.info('Calling ethernet information function')
         ethernet(script)
-    elif str(info_option) in ("s", "storage"):
-        script.log.info('Calling storage information function')
-        storage(script)
-    elif str(info_option) in ("fib", "fibre"):
-        script.log.info('Calling FC information function')
-        fibre(script)
     elif str(info_option) in ("t", "topology"):
         script.log.info('Calling topology function')
         topology_info(script)
@@ -112,11 +87,8 @@ def get_all(script):
     #showcae(script)
     systemlog(script)
     kernelversion(script)
-    statcommands(script)
-    cpumatch(script)
-    memorymatch(script)
-    fibre(script)
-    storage(script)
+    stat_commands(script)
+    cpu_memory_match(script) 
     ethernet(script)
     virsh(script)
     topology_info(script)
