@@ -44,7 +44,7 @@ def ethernet_info(script):
 def topology_info(script):
    topology(script)
 
-def get_os_resource(script):
+def virtualization_resource(script):
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     script_obj = FtfScript(setup=my_setup, cleanup=standard_cleanup)
     script_obj.setup()
     script_obj.add_testcase(
-        "configurations for Sles",
-        test_code=get_os_resource,
+        "Virtualization configs",
+        test_code=virtualization_resource,
     )
     script_obj.run()
     script_obj.exit()
