@@ -150,7 +150,7 @@ def kernel_version(script):
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
     kernel_info_cmd = console.run("uname -r")
-    script.log.info("kernel version:{}".format(kernel_info_cmd
+    script.log.info("kernel version:{}".format(kernel_info_cmd))
 
 def ethcard_details(script):
     par = script.par
@@ -165,7 +165,7 @@ def ethcard_details(script):
         driver_val=get_match(r'driver:(.*)',ethtool_cmd)
         version_val=get_match(r'version:(.*)',ethtool_cmd)
         script.log.info("driver:{}".format(driver_val))
-        script.log.info("version:{}".format(version_val
+        script.log.info("version:{}".format(version_val))
 
 
 def fibre_ethernet_storage_details(script):
