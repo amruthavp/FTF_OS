@@ -20,13 +20,13 @@ def os_verify(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    lsscsi_cmd=console.run('lsscsi | grep -i disk')
-    ata_check=re.findall(r'ATA',lsscsi_cmd)
-    fc_check=re.findall(r'FC',lsscsi_cmd)
-    mscc_check=re.findall(r'MSCC',lsscsi_cmd)
-    disk1 = re.findall(r'(sd[a-z]).*',lsscsi_cmd)
-    lsblk_cmd = console.run('lsblk')
-    efi = get_match(r'.*efi', lsblk_cmd)
+    disk_info=console.run('lsscsi | grep -i disk')
+    ata_check=re.findall(r'ATA', disk_info)
+    fc_check=re.findall(r'FC', disk_info)
+    mscc_check=re.findall(r'MSCC', disk_info)
+    disk1 = re.findall(r'(sd[a-z]).*', disk_info)
+    blk_info = console.run('lsblk')
+    efi = get_match(r'.*efi',  blk_info)
     disk2 = get_match(r'sd[a-z]', efi)
     script.log.info("="*15 +"Verification of OS installation" +"="*15)
     if disk2 in disk1:
@@ -64,17 +64,17 @@ def system_log(script):
     else:
         script.log.info("no errors")
 
-    dmesg_log_cmd = console.run("dmesg | grep -iE 'panic|fail|work|retries|BUG'")
+    driver_msg = console.run("dmesg | grep -iE 'panic|fail|work|retries|BUG'")
     if "error" in dmesg_log_cmd:
-        script.log.info("Errors exists. The dmseg log errors are:{}".format(dmesg_log_cmd))
+        script.log.info("Errors exists. The dmseg log errors are:{}".format(driver_msg))
     else:
         script.log.info("no errors")
     
 
 
 def cpu_match(script):
-    npar_verbose_cmd = script.conn.run("show npar verbose")
-    npar_cpu_cores = str(int(get_match(r'Cores.*\s(\d+)', npar_verbose_cmd)) * 2)
+    npar_details= script.conn.run("show npar verbose")
+    npar_cpu_cores = str(int(get_match(r'Cores.*\s(\d+)', npar_details)) * 2)
 
     script.log.info("=" * 15 + "CPU" + "=" * 15)
     script.summaryReport.append("#" * 10 + " CPU Summary")
@@ -92,8 +92,8 @@ def cpu_match(script):
 
 
 def memory_match(script):
-    npar_verbose_cmd=script.conn.run("show npar verbose")
-    npar_memory = int(get_match(r"Volatile\sMemory.*:\s(\d.*)\sG.*",npar_verbose_cmd))
+    npar_details=script.conn.run("show npar verbose")
+    npar_memory = int(get_match(r"Volatile\sMemory.*:\s(\d.*)\sG.*",npar_details))
 
     par = script.par
     console = par.get_console_conn()
@@ -134,8 +134,8 @@ def clear_cae(script):
     script.conn.run("clear cae")
 
 def firmware_info(script):
-    firmware_verbose_cmd = script.conn.run("show firmware verbose")
-    expected_firmware = get_match(r'Expected(.*)', firmware_verbose_cmd)
+    firmware_info = script.conn.run("show firmware verbose")
+    expected_firmware = get_match(r'Expected(.*)', firmware_info)
     expected_firmware_version = get_match(r'[0-9].*', expected_firmware)
     script.log.info("The expected firmware version is {}".format(expected_firmware_version))
 
@@ -217,10 +217,11 @@ def get_os_resource(script):
         info_option = script.args.get_info
         if str(info_option) == '-h':
              script.log.info(
-                 'get_os_resources.py [--host HOST] [--user username] [--password password] [--get_info option]'
-                 'Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
-                  'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS ,  cl - clear cae logs , cae - cae logs'
-                 'e-eth_card verification')
+                 'get_os_resources.py [--proto PROTO] [--get_info option]'
+                 'Enter the required info option:[m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
+                 'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS , 
+                 'cl - clear cae logs , cae - cae logs e-eth_card verification')
+           
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
             script.log.info('Calling os verification function')
@@ -269,7 +270,7 @@ def my_setup(script):
                        custom={
                            "get_info": {
                                "flags": ["--get_info"],
-                               "help": "Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory",
+                               "help": "Enter the required info option:[m/mem/memory] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory",
                            },
                        },
                        conns={"conn": {"con_type": "rmc_cli"}},
