@@ -119,11 +119,11 @@ def memory_match(script):
     script.summaryReport.append('Memory  Available(GB) : ' + str(memavi))
     script.log.info('='*35)
     script.log.info("=" * 15 + "Memory in RMC" + "=" * 15)
-    script.log.info('Memory Total(GB) : ' + str(buff7))
-    script.summaryReport.append('Memory Total(GB) : ' + str(buff7))
+    script.log.info('Memory Total(GB) : ' + str(npar_memory))
+    script.summaryReport.append('Memory Total(GB) : ' + str(npar_memory))
     script.log.info('='*35)
     script.log.info("=" * 15 + "Verification of Memory claimed by OS" + "=" * 15)
-    if memtot in range(npar_memory7-150,npar_memory+150):
+    if memtot in range(npar_memory-150,npar_memory+150):
         script.log.info("The memory matches in the RMC and OS")
 
     else:
