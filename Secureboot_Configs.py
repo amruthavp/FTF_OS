@@ -23,9 +23,9 @@ def boot_status_os(script):
 def boot_status_rmc(script):
     conn = script.conn
     script.partitions_obj
-    npar_verbose = conn.run("show npar verbose")
-    secureboot_state = get_match(r'.*Secure\sBoot.*:\s(.*)', npar_verbose
-    securebootnext_state= get_match(r'.*Secure\sBoot\sNext\s.*:\s(.*)', npar_verbose)
+    npar_details = conn.run("show npar verbose")
+    secureboot_state = get_match(r'.*Secure\sBoot.*:\s(.*)', npar_details)
+    securebootnext_state= get_match(r'.*Secure\sBoot\sNext\s.*:\s(.*)', npar_details)
     if secureboot_state == "Off":
         script.log.info("The Secure Boot is Off in rmc")
     else:
