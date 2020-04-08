@@ -39,7 +39,7 @@ def cpu_memory_match(script):
     cpu_match(script)
     memory_match(script)
 
-def ethernet(script):
+def ethernet_info(script):
     script.conn = script.par.get_console_conn()
     get_ethernet(script)
 
@@ -67,13 +67,13 @@ def get_os_resource(script):
         virsh(script)
     elif str(info_option) in ("i", "iostat, mpstat, vmstat informations"):
         script.log.info('Calling iostat, mpstat, vmstat function')
-        statcommands(script)
-    elif str(info_option) in ("cpu", "get cpu"):
+        stat_commands(script)
+    elif str(info_option) in ("cpu", "get memory and cpu information"):
         script.log.info('Calling cpu information function')
         cpu_memory_match(script)
     elif str(info_option) in ("io", "get IO"):
         script.log.info('Calling ethernet information function')
-        ethernet(script)
+        ethernet_info(script)
     elif str(info_option) in ("t", "topology"):
         script.log.info('Calling topology function')
         topology_info(script)
@@ -89,7 +89,7 @@ def get_all(script):
     kernelversion(script)
     stat_commands(script)
     cpu_memory_match(script) 
-    ethernet(script)
+    ethernet_info(script)
     virsh(script)
     topology_info(script)
 
