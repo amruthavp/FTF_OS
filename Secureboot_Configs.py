@@ -38,7 +38,7 @@ def boot_status_rmc(script):
 def systemlog(script):
     system_log(script)
 
-def get_os_resource(script):
+def secureboot_resource(script):
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
@@ -87,7 +87,7 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("get_os_resource", test_code=get_os_resource)
+    script.add_testcase("secureboot_resource", secureboot_resource)
     script.setup()
     script.run()
 script.log.info('=' * 30)
