@@ -222,11 +222,8 @@ def get_os_resource(script):
         info_option = script.args.get_info
         if str(info_option) == '-h':
              script.log.info(
-
-                 'get_os_resources.py  [--proto proto_name] [--password password] [--get_info option]'
-
-
-                  'Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
+                 'get_os_resources.py [--host HOST] [--proto proto_name]  [--get_info option]'
+                 ' the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
                   'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS ,  cl - clear cae logs , cae - cae logs')
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
