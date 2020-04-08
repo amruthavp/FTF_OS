@@ -20,26 +20,26 @@ def os_verify(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    buff8=console.run('lsscsi | grep -i disk')
-    val5=re.findall(r'ATA',buff8)
-    val6=get_match(r'FC',buff8)
-    val7=get_match(r'MSCC',buff8)
-    b = re.findall(r'(sd[a-z]).*', buff8)
-    a = console.run('lsblk')
-    c = get_match(r'.*efi', a)
-    d = get_match(r'sd[a-z]', c)
+    lsscsi_cmd=console.run('lsscsi | grep -i disk')
+    ata_check=re.findall(r'ATA',lsscsi_cmd)
+    fc_check=re.findall(r'FC',lsscsi_cmd)
+    mscc_check=re.findall(r'MSCC',lsscsi_cmd)
+    disk1 = re.findall(r'(sd[a-z]).*',lsscsi_cmd)
+    lsblk_cmd = console.run('lsblk')
+    efi = get_match(r'.*efi', lsblk_cmd)
+    disk2 = get_match(r'sd[a-z]', efi)
     script.log.info("="*15 +"Verification of OS installation" +"="*15)
-    if d in b:
+    if disk2 in disk1:
         script.log.info("OS installation was verified")
     else:
         script.error("OS installation error")
-    if "ATA" in val5:
+    if "ATA" in ata_check:
         script.log.info("OS is installed on the hard disk")
-    elif val6 == "FC":
-        script.log.info("OS is installed on FC verified")
+    elif "FC" in fc_check:
+        script.log.info("OS is installed on FC")
 
-    elif val7 == "MSCC":
-        script.log.info("OS is installed on FC verified")
+    elif "MSCC" in mscc_check:
+        script.log.info("OS is installed on FC")
 
     else:
         script.log.info("Failure")
