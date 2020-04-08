@@ -13,9 +13,9 @@ def boot_status_os(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    buffer3 = console.run("mokutil --sb-state")
-    buffer4 = get_match(r'disabled',buffer3)
-    if buffer4== "disabled":
+    boot_state = console.run("mokutil --sb-state")
+    boot_state_os = get_match(r'disabled',boot_state)
+    if boot_state_os== "disabled":
         script.log.info("Secure boot is disabled in OS")
     else:
         script.log.info("Secure boot is enabled in OS")
@@ -23,21 +23,18 @@ def boot_status_os(script):
 def boot_status_rmc(script):
     conn = script.conn
     script.partitions_obj
-    buff5 = conn.run("show npar verbose")
-    val1 = get_match(r'.*Secure\sBoot.*:\s(.*)', buff5)
-    val2= get_match(r'.*Secure\sBoot\sNext\s.*:\s(.*)', buff5)
-    if val1 == "Off":
+    npar_verbose = conn.run("show npar verbose")
+    secureboot_state = get_match(r'.*Secure\sBoot.*:\s(.*)', npar_verbose
+    securebootnext_state= get_match(r'.*Secure\sBoot\sNext\s.*:\s(.*)', npar_verbose)
+    if secureboot_state == "Off":
         script.log.info("The Secure Boot is Off in rmc")
     else:
         script.log.info("The Secure Boot is On in rmc")
-    if val2 == "Off":
+    if securebootnext_state == "Off":
         script.log.info("The Secure Boot Next is Off in rmc")
     else:
         script.log.info("The Secure Boot Next is On in rmc")
-
-def showcae(script):
-    show_cae(script)
-
+                                 
 def systemlog(script):
     system_log(script)
 
@@ -52,15 +49,12 @@ def get_os_resource(script):
     elif str(info_option) in ("k", "kernel version"):
         script.log.info('Calling kernel information function')
         kernelversion(script)
-    elif str(info_option) in ("bo", "boot os"):
+    elif str(info_option) in ("bo", "secureboot status in os"):
         script.log.info('Calling kernel information function')
         boot_status_os(script)
-    elif str(info_option) in ("br", "boot rmc"):
+    elif str(info_option) in ("br", "secureboot status in rmc"):
         script.log.info('Calling kernel information function')
         boot_status_rmc(script)
-    elif str(info_option) in ("cae", "CAE"):
-        script.log.info('Calling CAE function')
-        showcae(script)
     elif str(info_option) in ("sy", "sys_logs"):
         script.log.info('Calling sys_log function')
         systemlog(script)
