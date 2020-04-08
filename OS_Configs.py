@@ -219,7 +219,7 @@ def get_os_resource(script):
              script.log.info(
                  'get_os_resources.py [--proto PROTO] [--get_info option]'
                  'Enter the required info option:[m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
-                 'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS , 
+                 'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS ,' 
                  'cl - clear cae logs , cae - cae logs e-eth_card verification')
            
              sys.exit()
