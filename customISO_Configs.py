@@ -14,18 +14,18 @@ def systemlog(script):
 def ethcarddetails(script):
     ethcard_details(script)
 
-def firmwareinfo(script):
-    buff6 = script.conn.run("show firmware verbose")
-    val2 = get_match(r'Expected(.*)', buff6)
-    val3 = get_match(r'[0-9].*', val2)
-    val3=val3.strip()
+def firmware_info(script):
+    firmware_verbose = script.conn.run("show firmware verbose")
+    buff= get_match(r'Expected(.*)', firmware_verbose)
+    firmware_version_rmc = get_match(r'[0-9].*', buff)
+    firmware_version_rmc=firmware_version_rmc.strip()
     script.log.info("The expected firmware version is {}".format(val3))
     par = script.par
     console = par.get_console_conn()
-    buff6 = console.sendex('dmidecode -s bios-version\r')
-    val4= get_match(r'Bundle:(.*)\s[A-Z].*',buff6)
-    val4=val4.strip()
-    if val3==val4:
+    firmware_vcmd = console.sendex('dmidecode -s bios-version\r')
+    firmware_version_os= get_match(r'Bundle:(.*)\s[A-Z].*',firmware_vcmd)
+    firmware_version_os=firmware_version_os.strip()
+    if firmware_version_rmc==firmware_version_os:
         script.log.info("The firmware versions match in the RMC and OS console")
     else:
         script.log.info("The firmware versions do not match")
@@ -41,9 +41,6 @@ def get_os_resource(script):
     elif str(info_option) in ("c", "clear cae"):
         script.log.info('Calling clear logs function')
         clearcae(script)
-    elif str(info_option) in ("cae", "show cae"):
-        script.log.info('Calling cae logs function')
-        showcae(script)
     elif str(info_option) in ("s", "system logs"):
         script.log.info('Calling system logs function')
         systemlog(script)
@@ -52,7 +49,7 @@ def get_os_resource(script):
         ethcarddetails(script)
     elif str(info_option) in ("f", "firmware"):
         script.log.info('Calling firmware info function')
-        firmwareinfo(script)
+        firmware_info(script)
 
     else:
         script.log.info('Calling get_all function')
@@ -60,9 +57,8 @@ def get_os_resource(script):
 
 def get_all(script):
     #clearcae(script)
-    #showcae(script)
     systemlog(script)
-    firmwareinfo(script)
+    firmware_info(script)
     ethcarddetails((script))
 
 def my_setup(script):
