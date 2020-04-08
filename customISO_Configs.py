@@ -15,8 +15,8 @@ def ethcarddetails(script):
     ethcard_details(script)
 
 def firmware_info(script):
-    firmware_verbose = script.conn.run("show firmware verbose")
-    buff= get_match(r'Expected(.*)', firmware_verbose)
+    firmware_details = script.conn.run("show firmware verbose")
+    buff= get_match(r'Expected(.*)', firmware_details)
     firmware_version_rmc = get_match(r'[0-9].*', buff)
     firmware_version_rmc=firmware_version_rmc.strip()
     script.log.info("The expected firmware version is {}".format(val3))
@@ -31,7 +31,7 @@ def firmware_info(script):
         script.log.info("The firmware versions do not match")
 
 
-def get_os_resource(script):
+def CustomISO_resource(script):
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
@@ -56,7 +56,6 @@ def get_os_resource(script):
         get_all(script)
 
 def get_all(script):
-    #clearcae(script)
     systemlog(script)
     firmware_info(script)
     ethcarddetails((script))
@@ -79,7 +78,7 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("get_os_resource", test_code=get_os_resource)
+    script.add_testcase("CustomISO_resource", test_code=get_os_resource)
     script.setup()
     script.run()
 script.log.info('=' * 30)
