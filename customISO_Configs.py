@@ -19,7 +19,7 @@ def firmware_info(script):
     buff= get_match(r'Expected(.*)', firmware_details)
     firmware_version_rmc = get_match(r'[0-9].*', buff)
     firmware_version_rmc=firmware_version_rmc.strip()
-    script.log.info("The expected firmware version is {}".format(val3))
+    script.log.info("The expected firmware version is {}".format(firmware_version_rmc))
     par = script.par
     console = par.get_console_conn()
     firmware_vcmd = console.sendex('dmidecode -s bios-version\r')
@@ -78,7 +78,7 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("CustomISO_resource", test_code=get_os_resource)
+    script.add_testcase("CustomISO_resource", test_code=CustomISO_resource)
     script.setup()
     script.run()
 script.log.info('=' * 30)
