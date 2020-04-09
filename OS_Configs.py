@@ -281,7 +281,7 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase(" OS_configs",  OS_configs)
+    script.add_testcase(" OS_configs",  test_code=OS_configs)
     script.setup()
     script.run()
 script.log.info('=' * 30)
