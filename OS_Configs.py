@@ -65,7 +65,7 @@ def system_log(script):
         script.log.info("no errors")
 
     driver_msg = console.run("dmesg | grep -iE 'panic|fail|work|retries|BUG'")
-    if "error" in dmesg_log_cmd:
+    if "error" in driver_msg:
         script.log.info("Errors exists. The dmseg log errors are:{}".format(driver_msg))
     else:
         script.log.info("no errors")
