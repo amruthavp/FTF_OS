@@ -1,3 +1,29 @@
+"""This performs the post installation steps on a Linux OS:
+   Verification of OS installation and location of OS.
+   Displaying system and firmware logs.
+   Check if the number of CPU cores in CLI & OS are same.
+   Check if the memory in CLI & OS are same.
+   Firmware,kernel version.
+   Driver and firmware version of ethernet cards.
+   Partition details. 
+   Ethernet, storage and fibre channel information.
+   
+        
+usage: OS_Configs.py [-h] [--proto] [--get_info] [--partition]
+Ex:post_install.py --proto ah-010-rmc --partition 0
+Required Arguments:
+  --proto                Name or IP address of System Under Test/proto
+  --partition            partition number (0 if running on p0)
+  --get_info               [m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] ....
+                         
+                 'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
+                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version')'
+                 'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
+Optional Arguments:
+  -h, -?, --help        show this help message and exit
+"""
+
+
 import sys
 import os
 import platform
@@ -73,6 +99,7 @@ def system_log(script):
 
 
 def cpu_match(script):
+    """Check if the number of CPU cores in CLI & OS are same."""
     npar_details= script.conn.run("show npar verbose")
     npar_cpu_cores = str(int(get_match(r'Cores.*\s(\d+)', npar_details)) * 2)
 
@@ -92,6 +119,7 @@ def cpu_match(script):
 
 
 def memory_match(script):
+    """Check if the memory in CLI & OS are same."""
     npar_details=script.conn.run("show npar verbose")
     npar_memory = int(get_match(r"Volatile\sMemory.*:\s(\d.*)\sG.*",npar_details))
 
@@ -134,6 +162,7 @@ def clear_cae(script):
     script.conn.run("clear cae")
 
 def firmware_info(script):
+    "Firmware version"
     firmware_info = script.conn.run("show firmware verbose")
     expected_firmware = get_match(r'Expected(.*)', firmware_info)
     expected_firmware_version = get_match(r'[0-9].*', expected_firmware)
@@ -153,6 +182,7 @@ def kernel_version(script):
     script.log.info("kernel version:{}".format(kernel_info_cmd))
 
 def ethcard_details(script):
+    """Driver and firmware version of ethernet cards"""
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -169,6 +199,7 @@ def ethcard_details(script):
 
 
 def fibre_ethernet_storage_details(script):
+    """Functions to get OS resource information such as ethernet, storage and fibre channel"""
     script.conn=script.par.get_console_conn()
     get_ethernet(script)
     get_storage(script)
@@ -217,11 +248,11 @@ def OS_configs(script):
         info_option = script.args.get_info
         if str(info_option) == '-h':
              script.log.info(
-                 'get_os_resources.py [--proto PROTO] [--get_info option]'
+                 'OS_configs.py [--proto PROTO] [--get_info option]'
                  'Enter the required info option:[m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
-                 'Enter v -Verification of OS installation  ,  sy - system logs c- CPU count  ,  m- memory claimed by OS ,' 
-                 'cl - clear cae logs , cae - cae logs e-eth_card verification')
-           
+                 'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
+                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version')'
+                 'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
             script.log.info('Calling os verification function')
@@ -232,7 +263,7 @@ def OS_configs(script):
         elif str(info_option) in ("c", "cpu"):
             script.log.info ('Calling get_cpu function')
             cpu_match(script)
-        elif str(info_option) in ("m", "memory"):
+        elif str(info_option) in ("m", "memory","mem"):
             script.log.info('Calling get_memory function')
             memory_match(script)
         elif str(info_option) in ("cl", "clear log"):
@@ -250,7 +281,7 @@ def OS_configs(script):
         elif str(info_option) in ("d", "driver"):
             script.log.info('Calling driver info function')
             ethcard_details(script)
-        elif str(info_option) in ("e", "eth", "ethernet storage fibre details"):
+        elif str(info_option) in ("e", "eth", "fibre_ethernet_storage_details"):
             script.log.info('Calling fibre_ethernet_storage_details function')
             fibre_ethernet_storage_details(script)
         elif str(info_option) in ("t", "topology"):
