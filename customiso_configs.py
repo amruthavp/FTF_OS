@@ -27,7 +27,7 @@ import re
 from ftflib.ftf_script import FtfScript
 from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.toolbox import get_match
-from tests.mcs.resource_check_os.OSinstall import *
+from tests.mcs.resource_check_os.osinstallation_configs import *
 
 def clearcae(script):
     clear_cae(script)
@@ -62,7 +62,7 @@ def CustomISO_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'customiso_configs.py [-h] [--proto] [--get_info] [--partition]
+            'customiso_configs.py [-h] [--proto] [--get_info] [--partition]'
             "Enter the required info option:[c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all] eg: for system logs --get_info s")
         sys.exit()
     elif str(info_option) in ("c", "clear_cae"):
