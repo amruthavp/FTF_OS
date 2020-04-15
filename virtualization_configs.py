@@ -83,7 +83,7 @@ def virtualization_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'virtualization_resource.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
+            'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
         sys.exit()
     elif str(info_option) in ("s", "system logs"):
         script.log.info('Calling system logs function')
