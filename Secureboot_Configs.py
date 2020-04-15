@@ -2,7 +2,7 @@ from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.ftf_script import FtfScript
 from ftflib.toolbox import get_match
 import re
-from tests.demo.OSOS import system_log,kernel_version,clear_cae,show_cae
+from tests.mcs.resource_check_os.OSinstall import *
 import sys
 
 
