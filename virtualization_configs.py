@@ -13,7 +13,7 @@ Required Arguments:
                                   eth/get ethernet info
 Optional Arguments:
 
-        -h, -?, --help              show this help message and exit
+        -h, -?, --help            show this help message and exit
 """
 
 import re
