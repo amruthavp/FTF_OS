@@ -9,7 +9,7 @@
    Ethernet, storage and fibre channel information.
    
         
-usage: OS_Configs.py [-h] [--proto] [--get_info] [--partition]
+usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
 Ex:post_install.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
