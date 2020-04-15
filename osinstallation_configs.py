@@ -251,7 +251,7 @@ def OS_configs(script):
                  'osinstallation_configs.py [--proto PROTO] [--get_info option] [--partition]'
                  'Enter the required info option:[m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
                  'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs, c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
-                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version'
+                 'cl/clear_log - clear cae logs ,  e/eth-eth_card verification, fm/firmware_info-Firmware version,par-partition details,k-kernel version'
                  'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology')
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
@@ -266,16 +266,16 @@ def OS_configs(script):
         elif str(info_option) in ("m", "memory","mem"):
             script.log.info('Calling get_memory function')
             memory_match(script)
-        elif str(info_option) in ("cl", "clear log"):
+        elif str(info_option) in ("cl", "clear_log"):
             script.log.info('Calling clear log function')
             clear_cae(script)
-        elif str(info_option) in ("fm", "firmware info"):
+        elif str(info_option) in ("fm", "firmware_info"):
             script.log.info('Calling firmware information function')
             firmware_info(script)
         elif str(info_option) in ("par", "par_details"):
             script.log.info('Calling get_log_sheet function')
             par_details(script)
-        elif str(info_option) in ("k", "kernel version"):
+        elif str(info_option) in ("k", "kernel_version"):
              script.log.info('Calling kernel information function')
              kernel_version(script)
         elif str(info_option) in ("d", "driver"):
