@@ -6,9 +6,8 @@ Required Arguments:
         --proto PROTO             Name of System Under Test
         --get_info                s/system logs
                                   k/kernel build version
-                                  cpu/get memory and cpu information
-                                  v/virsh
-                                  i/iostat, mpstat, vmstat informations
+                                  bo/secureboot status in os
+                                  br/secureboot status in rmc
                                   eth/get ethernet info
 Optional Arguments:
 
