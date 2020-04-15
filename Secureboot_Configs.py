@@ -1,4 +1,18 @@
-from exllib.setup_teardown import standard_cleanup, standard_setup
+"""Script to get information on system logs, kernel version and Secureboot and Secureboot Next status from RMC and OS console
+usage : Secureboot_Configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]
+
+Required Arguments:
+
+        --proto PROTO             Name of System Under Test
+        --get_info                s/system logs
+                                  k/kernel build version
+                                  cpu/get memory and cpu information
+                                  v/virsh
+                                  i/iostat, mpstat, vmstat informations
+                                  eth/get ethernet info
+Optional Arguments:
+
+        -h, -?, --help              show this help message and exit"""from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.ftf_script import FtfScript
 from ftflib.toolbox import get_match
 import re
