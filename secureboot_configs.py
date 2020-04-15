@@ -1,4 +1,4 @@
-"""Script to get information on:
+"""Script to get information on Secureboot configurations:
   system logs
   kernel version 
   Secureboot status from OS
