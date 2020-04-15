@@ -3,8 +3,7 @@
    Displaying system logs.
    Firmware version.
    Driver and firmware version of ethernet cards.
-   Partition details. 
-   Ethernet, storage and fibre channel information.
+   
    
         
 usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
@@ -37,6 +36,7 @@ def systemlog(script):
     system_log(script)
 
 def ethcarddetails(script):
+    """Driver and firmware version of ethernet cards"""
     ethcard_details(script)
 
 def firmware_info(script):
