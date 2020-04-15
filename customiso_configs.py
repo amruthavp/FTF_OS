@@ -1,13 +1,13 @@
 
 """This performs the CustomISO Configuration steps on a Linux OS:
    Displaying system logs.
-   Firmware version.
+   Checks if the firmware version is same in RMC and OS.
    Driver and firmware version of ethernet cards.
    
    
         
-usage: CustomISO_resource.py [-h] [--proto] [--get_info] [--partition]
-Ex:post_install.py --proto ah-010-rmc --partition 0
+usage: customiso_configs.py [-h] [--proto] [--get_info] [--partition]
+Ex:customiso_configs.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
   --partition            partition number (0 if running on p0)
@@ -40,6 +40,7 @@ def ethcarddetails(script):
     ethcard_details(script)
 
 def firmware_info(script):
+   """ Checks if the firmware version is same in RMC and OS."""
     firmware_details = script.conn.run("show firmware verbose")
     buff= get_match(r'Expected(.*)', firmware_details)
     firmware_version_rmc = get_match(r'[0-9].*', buff)
@@ -61,8 +62,8 @@ def CustomISO_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'CustomISO_resource.py [-h] [--proto] [--get_info] [--partition]
-           "Enter the required info option:[c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all] eg: for system logs --get_info s"')
+            'customiso_configs.py [-h] [--proto] [--get_info] [--partition]
+            "Enter the required info option:[c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all] eg: for system logs --get_info s")
         sys.exit()
     elif str(info_option) in ("c", "clear_cae"):
         script.log.info('Calling clear logs function')
