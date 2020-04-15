@@ -10,15 +10,15 @@
    
         
 usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
-Ex:post_install.py --proto ah-010-rmc --partition 0
+Ex:osinstallation_configs.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
   --partition            partition number (0 if running on p0)
-  --get_info               [m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] ....
+  --get_info             [m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] ....
                          
-                 'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
-                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version')'
-                 'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
+                        'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs, c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
+                        'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version'
+                        'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
 Optional Arguments:
   -h, -?, --help        show this help message and exit
 """
@@ -162,7 +162,7 @@ def clear_cae(script):
     script.conn.run("clear cae")
 
 def firmware_info(script):
-    "Firmware version"
+    """Firmware version"""
     firmware_info = script.conn.run("show firmware verbose")
     expected_firmware = get_match(r'Expected(.*)', firmware_info)
     expected_firmware_version = get_match(r'[0-9].*', expected_firmware)
@@ -248,11 +248,11 @@ def OS_configs(script):
         info_option = script.args.get_info
         if str(info_option) == '-h':
              script.log.info(
-                 'OS_configs.py [--proto PROTO] [--get_info option]'
+                 'osinstallation_configs.py [--proto PROTO] [--get_info option] [--partition]'
                  'Enter the required info option:[m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory'
-                 'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
-                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version')'
-                 'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
+                 'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs, c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
+                 'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version'
+                 'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology')
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
             script.log.info('Calling os verification function')
