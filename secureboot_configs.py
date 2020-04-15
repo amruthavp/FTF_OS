@@ -1,5 +1,5 @@
 """Script to get information on system logs, kernel version and Secureboot and Secureboot Next status from RMC and OS console
-usage : Secureboot_Configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]
+usage : secureboot_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]
 
 Required Arguments:
 
@@ -23,9 +23,13 @@ import sys
 
 
 def kernelversion(script):
+    """ Displaying kernel version """    
     kernel_version(script)
 
 def boot_status_os(script):
+        
+    """ Checking secureboot status on the OS console"""
+
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -37,6 +41,9 @@ def boot_status_os(script):
         script.log.info("Secure boot is enabled in OS")
 
 def boot_status_rmc(script):
+        
+    """Checking the secureboot and secureboot next status on the RMC console """
+
     conn = script.conn
     script.partitions_obj
     npar_details = conn.run("show npar verbose")
@@ -52,6 +59,7 @@ def boot_status_rmc(script):
         script.log.info("The Secure Boot Next is On in rmc")
                                  
 def systemlog(script):
+    """Displaying cae, syslog and dmesg 
     system_log(script)
 
 def secureboot_resource(script):
