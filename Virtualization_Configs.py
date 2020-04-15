@@ -1,3 +1,16 @@
+"""Script to get information on system logs, kernel version, guests created, cpu, memory, ethernet and device statistics
+
+usage : virtualization.py [--host HOST] [--user username] [--password password] [--get_info option]
+
+Required Arguments:
+
+        --host HOST               Name or IP address of System Under Test
+        --get_info                s/system logs k/kernel build version cpu/get memory and cpu information v/virsh
+Optional Arguments:
+
+        -h, -?, --help              show this help message and exit"""
+
+
 import re
 import sys
 from exllib.setup_teardown import standard_cleanup, standard_setup
