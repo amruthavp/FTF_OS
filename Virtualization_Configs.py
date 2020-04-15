@@ -3,7 +3,7 @@ import sys
 from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.ftf_script import FtfScript
 from ftflib.toolbox import get_match
-from tests.demo.OSOS import cpu_match,memory_match,system_log,clear_cae,kernel_version,topology
+from tests.mcs.resource_check_os.OSinstall import *
 from tests.mcs.resource_check_os.get_os_resourse import *
 
 def clearcae(script):
