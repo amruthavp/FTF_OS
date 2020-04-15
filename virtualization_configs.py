@@ -5,12 +5,12 @@ usage : virtualization.py [--proto PROTO] [--partition PARTITION] [--get_info op
 Required Arguments:
 
         --proto PROTO             Name of System Under Test
-        --get_info                s/system logs
-                                  k/kernel build version
-                                  cpu/get memory and cpu information
+        --get_info                s/system_logs
+                                  k/kernel_build version
+                                  cpu/get_memory_and_cpu_information
                                   v/virsh
-                                  i/iostat, mpstat, vmstat informations
-                                  eth/get ethernet info
+                                  i/iostat_mpstat_vmstat_informations
+                                  eth/get_ethernet_info
 Optional Arguments:
 
         -h, -?, --help            show this help message and exit
@@ -90,25 +90,25 @@ def virtualization_resource(script):
         script.log.info(
             'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
         sys.exit()
-    elif str(info_option) in ("s", "system logs"):
+    elif str(info_option) in ("s", "system_logs"):
         script.log.info('Calling system logs function')
         systemlog(script)
-    elif str(info_option) in ("c", "clear cae"):
+    elif str(info_option) in ("c", "clear_cae"):
         script.log.info('Calling clear logs function')
         clearcae(script)
-    elif str(info_option) in ("k", "kernel build version"):
+    elif str(info_option) in ("k", "kernel_build_version"):
         script.log.info('Calling kernel version function')
         kernelversion(script)
     elif str(info_option) in ("v", "virsh"):
         script.log.info('Calling virsh function')
         guests_created(script)
-    elif str(info_option) in ("i", "iostat, mpstat, vmstat informations"):
+    elif str(info_option) in ("i", "iostat_mpstat_vmstat_informations"):
         script.log.info('Calling iostat, mpstat, vmstat function')
         device_stats(script)
-    elif str(info_option) in ("cpu", "get memory and cpu information"):
+    elif str(info_option) in ("cpu", "get_memory_and_cpu_information"):
         script.log.info('Calling cpu information function')
         cpu_memory_match(script)
-    elif str(info_option) in ("eth", "get ethernet info"):
+    elif str(info_option) in ("eth", "get_ethernet_info"):
         script.log.info('Calling ethernet information function')
         ethernet_info(script)
     elif str(info_option) in ("t", "topology"):
@@ -135,7 +135,7 @@ def my_setup(script):
                        custom={
                            "get_info": {
                                "flags": ["--get_info"],
-                               "help": "Enter the required info option:[s/system logs] [k/kernel build version] [cpu/get memory and cpu information] [v/virsh]  eg: for kernel version --get_info k",
+                               "help": "Enter the required info option:[s/system_logs] [k/kernel_build_version] [cpu/get_memory_and_cpu_information] [eth/get_ethernet_info] [v/virsh] [t/topology] eg: for kernel version --get_info k",
                            },
                        },
                        conns={"conn": {"con_type": "rmc_cli"}},
