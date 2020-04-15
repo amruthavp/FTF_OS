@@ -38,13 +38,13 @@ def CustomISO_resource(script):
         script.log.info(
             'get_os_resources.py [--host HOST] [--user username] [--password password] [--get_info option]')
         sys.exit()
-    elif str(info_option) in ("c", "clear cae"):
+    elif str(info_option) in ("c", "clear_cae"):
         script.log.info('Calling clear logs function')
         clearcae(script)
-    elif str(info_option) in ("s", "system logs"):
+    elif str(info_option) in ("s", "system_logs"):
         script.log.info('Calling system logs function')
         systemlog(script)
-    elif str(info_option) in ("d", "ethcard details"):
+    elif str(info_option) in ("d", "ethcard_details"):
         script.log.info('Calling ethcard details info function')
         ethcarddetails(script)
     elif str(info_option) in ("f", "firmware"):
@@ -67,7 +67,7 @@ def my_setup(script):
                    custom={
                        "get_info": {
                            "flags": ["--get_info"],
-                           "help": "Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory",
+                           "help": "Enter the required info option:[c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all] eg: for system logs --get_info s",
                        },
                    },
                    conns={"conn": {"con_type": "rmc_cli"}},
