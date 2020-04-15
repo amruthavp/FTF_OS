@@ -1,10 +1,10 @@
 """Script to get information on system logs, kernel version, guests created, cpu, memory, ethernet and device statistics
 
-usage : virtualization.py [--proto PROTO] [--partition PARTITION_ID] [--get_info option]
+usage : virtualization.py [--proto PROTO] [--partition PARTITION] [--get_info option]
 
 Required Arguments:
 
-        --host HOST               Name or IP address of System Under Test
+        --proto PROTO             Name of System Under Test
         --get_info                s/system logs
                                   k/kernel build version
                                   cpu/get memory and cpu information
@@ -37,7 +37,9 @@ def kernelversion(script):
     kernel_version(script)
 
 def guests_created(script):
+        
         """ Console logs showing all the guest installed and running"""
+        
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -45,7 +47,9 @@ def guests_created(script):
     script.log.info("Guests created are {}".format(guests_info))
 
 def device_stats(script):
+        
         """Displays the output of iostat, vmstat, mpstat commands"""
+        
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -57,12 +61,16 @@ def device_stats(script):
     script.log.info("mpstat information {}".format(mpstat_cmd))
 
 def cpu_memory_match(script):
+        
         """Checks  and verifies the cpu and memory information gathered from RMC and OS console"""
+        
     cpu_match(script)
     memory_match(script)
 
 def ethernet_info(script):
+        
         """ Displays PCI Ethernet Controller information"""
+        
     script.conn = script.par.get_console_conn()
     get_ethernet(script)
 
