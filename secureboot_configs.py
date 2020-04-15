@@ -1,4 +1,8 @@
-"""Script to get information on system logs, kernel version and Secureboot and Secureboot Next status from RMC and OS console
+"""Script to get information on:
+  system logs
+  kernel version 
+  Secureboot status from OS
+  Secureboot and Secureboot Next status from RMC .
 usage : secureboot_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]
 
 Required Arguments:
@@ -63,6 +67,7 @@ def systemlog(script):
         
     """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
     system_log(script)
+        
 
 def secureboot_resource(script):
         
