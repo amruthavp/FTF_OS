@@ -13,8 +13,8 @@ Required Arguments:
                                   eth/get ethernet info
 Optional Arguments:
 
-        -h, -?, --help              show this help message and exit"""
-
+        -h, -?, --help              show this help message and exit
+"""
 
 import re
 import sys
@@ -25,21 +25,24 @@ from tests.mcs.resource_check_os.osinstallation_configs import *
 from tests.mcs.resource_check_os.get_os_resourse import *
 
 def clearcae(script):
-        """Clearing the cae logs on RMC console"""
+
+    """Clearing the cae logs on RMC console"""
     clear_cae(script)
 
 def systemlog(script):
-        """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
+
+    """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
     system_log(script)
 
 def kernelversion(script):
-        """Displaying the kernel version"""
+
+    """Displaying the kernel version"""
     kernel_version(script)
 
 def guests_created(script):
-        
-        """ Console logs showing all the guest installed and running"""
-        
+
+    """ Console logs showing all the guest installed and running"""
+
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -47,9 +50,9 @@ def guests_created(script):
     script.log.info("Guests created are {}".format(guests_info))
 
 def device_stats(script):
-        
-        """Displays the output of iostat, vmstat, mpstat commands"""
-        
+
+    """Displays the output of iostat, vmstat, mpstat commands"""
+
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -61,24 +64,26 @@ def device_stats(script):
     script.log.info("mpstat information {}".format(mp_stat))
 
 def cpu_memory_match(script):
-        
-        """Checks  and verifies the cpu and memory information gathered from RMC and OS console"""
-        
+
+    """Checks  and verifies the cpu and memory information gathered from RMC and OS console"""
+
     cpu_match(script)
     memory_match(script)
 
 def ethernet_info(script):
-        
-        """ Displays PCI Ethernet Controller information"""
-        
+
+    """ Displays PCI Ethernet Controller information"""
+
     script.conn = script.par.get_console_conn()
     get_ethernet(script)
 
 def topology_info(script):
-        """Fetching Topology output"""
-   topology(script)
+
+    """Fetching Topology output"""
+    topology(script)
 
 def virtualization_resource(script):
+
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
@@ -118,7 +123,7 @@ def get_all(script):
     systemlog(script)
     kernelversion(script)
     device_stats(script)
-    cpu_memory_match(script) 
+    cpu_memory_match(script)
     ethernet_info(script)
     guests_created(script)
     topology_info(script)
