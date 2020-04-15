@@ -117,7 +117,7 @@ def my_setup(script):
                        custom={
                            "get_info": {
                                "flags": ["--get_info"],
-                               "help": "Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory",
+                               "help": "Enter the required info option:[s/system logs] [k/kernel build version] [cpu/get memory and cpu information] [v/virsh]  eg: for kernel version --get_info k",
                            },
                        },
                        conns={"conn": {"con_type": "rmc_cli"}},
