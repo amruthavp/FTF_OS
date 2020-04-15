@@ -12,11 +12,14 @@ Required Arguments:
                                   eth/get ethernet info
 Optional Arguments:
 
-        -h, -?, --help              show this help message and exit"""from exllib.setup_teardown import standard_cleanup, standard_setup
+        -h, -?, --help              show this help message and exit"""
+
+
+from exllib.setup_teardown import standard_cleanup, standard_setup
 from ftflib.ftf_script import FtfScript
 from ftflib.toolbox import get_match
 import re
-from tests.mcs.resource_check_os.OSinstall import *
+from tests.mcs.resource_check_os.osinstallation_configs import *
 import sys
 
 
