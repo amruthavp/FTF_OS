@@ -119,11 +119,12 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("secureboot_resource", secureboot_resource)
+    script.add_testcase("CustomISO_resource", test_code=CustomISO_resource)
     script.setup()
     script.run()
-script.log.info('=' * 30)
-script.log.info(" " * 10 + "Summary")
-script.log.info("\n".join(script.summaryReport))
-script.log.info("Report Complete")
-script.exit()
+    script.log.info('=' * 30)
+    script.log.info(" " * 10 + "Summary")
+    script.log.info("\n".join(script.summaryReport))
+    script.log.info("Report Complete")
+    script.exit()
+
