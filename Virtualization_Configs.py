@@ -1,11 +1,16 @@
 """Script to get information on system logs, kernel version, guests created, cpu, memory, ethernet and device statistics
 
-usage : virtualization.py [--host HOST] [--user username] [--password password] [--get_info option]
+usage : virtualization.py [--proto PROTO] [--partition PARTITION_ID] [--get_info option]
 
 Required Arguments:
 
         --host HOST               Name or IP address of System Under Test
-        --get_info                s/system logs k/kernel build version cpu/get memory and cpu information v/virsh
+        --get_info                s/system logs
+                                  k/kernel build version
+                                  cpu/get memory and cpu information
+                                  v/virsh
+                                  i/iostat, mpstat, vmstat informations
+                                  eth/get ethernet info
 Optional Arguments:
 
         -h, -?, --help              show this help message and exit"""
@@ -90,7 +95,7 @@ def virtualization_resource(script):
     elif str(info_option) in ("cpu", "get memory and cpu information"):
         script.log.info('Calling cpu information function')
         cpu_memory_match(script)
-    elif str(info_option) in ("io", "get IO"):
+    elif str(info_option) in ("eth", "get ethernet info"):
         script.log.info('Calling ethernet information function')
         ethernet_info(script)
     elif str(info_option) in ("t", "topology"):
