@@ -6,7 +6,7 @@
    
    
         
-usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
+usage: CustomISO_resource.py [-h] [--proto] [--get_info] [--partition]
 Ex:post_install.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
@@ -61,7 +61,8 @@ def CustomISO_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'get_os_resources.py [--host HOST] [--user username] [--password password] [--get_info option]')
+            'CustomISO_resource.py [-h] [--proto] [--get_info] [--partition]
+           "Enter the required info option:[c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all] eg: for system logs --get_info s"')
         sys.exit()
     elif str(info_option) in ("c", "clear_cae"):
         script.log.info('Calling clear logs function')
