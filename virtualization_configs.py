@@ -1,4 +1,8 @@
-"""Script to get information on system logs, kernel version, guests created, cpu, memory, ethernet and device statistics
+"""Script to get information on Virtualization configurations.
+   system logs
+   kernel version
+   guests created
+   cpu, memory, ethernet and device statistics
 
 usage : virtualization.py [--proto PROTO] [--partition PARTITION] [--get_info option]
 
@@ -88,7 +92,8 @@ def virtualization_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
+            'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]'
+            'Enter the required info option:[s/system_logs] [k/kernel_build_version] [cpu/get_memory_and_cpu_information] [eth/get_ethernet_info] [v/virsh] [t/topology] eg: for kernel version --get_info k')
         sys.exit()
     elif str(info_option) in ("s", "system_logs"):
         script.log.info('Calling system logs function')
