@@ -53,12 +53,12 @@ def device_stats(script):
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
-    io_stas = console.run("iostat")
-    script.log.info("iostat information {}".format(iostat_cmd))
+    io_stat = console.run("iostat")
+    script.log.info("iostat information {}".format(io_stat))
     vm_stat = console.run("vmstat")
-    script.log.info("vmstat information {}".format(vmstat_cmd))
-    mp_stat_cmd = console.run("mpstat")
-    script.log.info("mpstat information {}".format(mpstat_cmd))
+    script.log.info("vmstat information {}".format(vm_stat))
+    mp_stat = console.run("mpstat")
+    script.log.info("mpstat information {}".format(mp_stat))
 
 def cpu_memory_match(script):
         
@@ -83,7 +83,7 @@ def virtualization_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'get_os_resources.py [--host HOST] [--user username] [--password password] [--get_info option]')
+            'virtualization_resource.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
         sys.exit()
     elif str(info_option) in ("s", "system logs"):
         script.log.info('Calling system logs function')
