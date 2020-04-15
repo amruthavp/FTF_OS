@@ -20,15 +20,19 @@ from tests.mcs.resource_check_os.OSinstall import *
 from tests.mcs.resource_check_os.get_os_resourse import *
 
 def clearcae(script):
+        """Clearing the cae logs on RMC console"""
     clear_cae(script)
 
 def systemlog(script):
+        """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
     system_log(script)
 
 def kernelversion(script):
+        """Displaying the kernel version"""
     kernel_version(script)
 
 def guests_created(script):
+        """ Console logs showing all the guest installed and running"""
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -36,6 +40,7 @@ def guests_created(script):
     script.log.info("Guests created are {}".format(guests_info))
 
 def device_stats(script):
+        """Displays the output of iostat, vmstat, mpstat commands"""
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -47,14 +52,17 @@ def device_stats(script):
     script.log.info("mpstat information {}".format(mpstat_cmd))
 
 def cpu_memory_match(script):
+        """Checks  and verifies the cpu and memory information gathered from RMC and OS console"""
     cpu_match(script)
     memory_match(script)
 
 def ethernet_info(script):
+        """ Displays PCI Ethernet Controller information"""
     script.conn = script.par.get_console_conn()
     get_ethernet(script)
 
 def topology_info(script):
+        """Fetching Topology output"""
    topology(script)
 
 def virtualization_resource(script):
