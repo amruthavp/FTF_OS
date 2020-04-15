@@ -4,7 +4,7 @@ usage : secureboot_configs.py [--proto PROTO] [--partition PARTITION] [--get_inf
 Required Arguments:
 
         --proto PROTO             Name of System Under Test
-        --get_info                s/system logs
+        --get_info                s/system_logs
                                   k/kernel_build_version
                                   bo/secureboot_status_in_os
                                   br/secureboot_status_in_rmc
@@ -103,7 +103,7 @@ def my_setup(script):
                    custom={
                        "get_info": {
                            "flags": ["--get_info"],
-                           "help": "Enter the required info option:[s/system logs] [k/kernel build version] [bo/secureboot_status_in_os] [br/secureboot_status_in_rmc]eg: for eg: for kernel version --get_info k",
+                           "help": "Enter the required info option:[s/system logs] [k/kernel build version] [bo/secureboot_status_in_os] [br/secureboot_status_in_rmc] eg: for eg: for kernel version --get_info k",
                        },
                    },
                    conns={"conn": {"con_type": "rmc_cli"}},
