@@ -1,3 +1,28 @@
+
+"""This performs the CustomISO Configuration steps on a Linux OS:
+   Displaying system logs.
+   Firmware version.
+   Driver and firmware version of ethernet cards.
+   Partition details. 
+   Ethernet, storage and fibre channel information.
+   
+        
+usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
+Ex:post_install.py --proto ah-010-rmc --partition 0
+Required Arguments:
+  --proto                Name or IP address of System Under Test/proto
+  --partition            partition number (0 if running on p0)
+  --get_info             [c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all]
+                         
+                 
+Optional Arguments:
+  -h, -?, --help        show this help message and exit
+"""
+
+
+
+
+
 import sys
 import re
 from ftflib.ftf_script import FtfScript
