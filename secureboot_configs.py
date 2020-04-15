@@ -5,13 +5,13 @@ Required Arguments:
 
         --proto PROTO             Name of System Under Test
         --get_info                s/system logs
-                                  k/kernel build version
-                                  bo/secureboot status in os
-                                  br/secureboot status in rmc
-                                  eth/get ethernet info
+                                  k/kernel_build_version
+                                  bo/secureboot_status_in_os
+                                  br/secureboot_status_in_rmc
+                                  eth/get_ethernet_info
 Optional Arguments:
 
-        -h, -?, --help              show this help message and exit"""
+        -h, -?, --help            show this help message and exit"""
 
 
 from exllib.setup_teardown import standard_cleanup, standard_setup
@@ -23,6 +23,7 @@ import sys
 
 
 def kernelversion(script):
+        
     """ Displaying kernel version """    
     kernel_version(script)
 
@@ -59,24 +60,26 @@ def boot_status_rmc(script):
         script.log.info("The Secure Boot Next is On in rmc")
                                  
 def systemlog(script):
-    """Displaying cae, syslog and dmesg 
+        
+    """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
     system_log(script)
 
 def secureboot_resource(script):
+        
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'get_os_resources.py [--host HOST] [--user username] [--password password] [--get_info option]')
+            'secureboot_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
         sys.exit()
 
-    elif str(info_option) in ("k", "kernel version"):
+    elif str(info_option) in ("k", "kernel_version"):
         script.log.info('Calling kernel information function')
         kernelversion(script)
-    elif str(info_option) in ("bo", "secureboot status in os"):
+    elif str(info_option) in ("bo", "secureboot_status_in_os"):
         script.log.info('Calling kernel information function')
         boot_status_os(script)
-    elif str(info_option) in ("br", "secureboot status in rmc"):
+    elif str(info_option) in ("br", "secureboot_status_in_rmc"):
         script.log.info('Calling kernel information function')
         boot_status_rmc(script)
     elif str(info_option) in ("sy", "sys_logs"):
@@ -100,7 +103,7 @@ def my_setup(script):
                    custom={
                        "get_info": {
                            "flags": ["--get_info"],
-                           "help": "Enter the required info option:[m/mem/memory] [s/storage] [f/fibre] [c/cpu] [e/eth/ethernet] [a/all] eg: for memory --get_info memory",
+                           "help": "Enter the required info option:[s/system logs] [k/kernel build version] [bo/secureboot_status_in_os] [br/secureboot_status_in_rmc]eg: for eg: for kernel version --get_info k",
                        },
                    },
                    conns={"conn": {"con_type": "rmc_cli"}},
