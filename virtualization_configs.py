@@ -1,23 +1,19 @@
-"""Script to get information on Virtualization configurations.
-   system logs
-   kernel version
-   guests created
-   cpu, memory, ethernet and device statistics
+"""Script to get information on system logs, kernel version, guests created, cpu, memory, ethernet and device statistics
 
 usage : virtualization.py [--proto PROTO] [--partition PARTITION] [--get_info option]
 
 Required Arguments:
 
         --proto PROTO             Name of System Under Test
-        --get_info                s/system_logs
-                                  k/kernel_build version
-                                  cpu/get_memory_and_cpu_information
+        --get_info                s/system logs
+                                  k/kernel build version
+                                  cpu/get memory and cpu information
                                   v/virsh
-                                  i/iostat_mpstat_vmstat_informations
-                                  eth/get_ethernet_info
+                                  i/iostat, mpstat, vmstat informations
+                                  eth/get ethernet info
 Optional Arguments:
 
-        -h, -?, --help            show this help message and exit
+        -h, -?, --help              show this help message and exit
 """
 
 import re
@@ -52,6 +48,8 @@ def guests_created(script):
     #par.get_to_linux("Red Hat Enterprise Linux Server")
     guests_info=console.run("virsh list --all")
     script.log.info("Guests created are {}".format(guests_info))
+    script.summaryReport.append("#" * 10 + " Guests")
+    script.summaryReport.append("Guests are:" + guests_info)
 
 def device_stats(script):
 
@@ -66,6 +64,8 @@ def device_stats(script):
     script.log.info("vmstat information {}".format(vm_stat))
     mp_stat = console.run("mpstat")
     script.log.info("mpstat information {}".format(mp_stat))
+    script.summaryReport.append("#" * 10 + " Device statistics displayed above")
+
 
 def cpu_memory_match(script):
 
@@ -92,28 +92,27 @@ def virtualization_resource(script):
     info_option = script.args.get_info
     if str(info_option) == '-h':
         script.log.info(
-            'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]'
-            'Enter the required info option:[s/system_logs] [k/kernel_build_version] [cpu/get_memory_and_cpu_information] [eth/get_ethernet_info] [v/virsh] [t/topology] eg: for kernel version --get_info k')
+            'virtualization_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]')
         sys.exit()
-    elif str(info_option) in ("s", "system_logs"):
+    elif str(info_option) in ("s", "system logs"):
         script.log.info('Calling system logs function')
         systemlog(script)
-    elif str(info_option) in ("c", "clear_cae"):
+    elif str(info_option) in ("c", "clear cae"):
         script.log.info('Calling clear logs function')
         clearcae(script)
-    elif str(info_option) in ("k", "kernel_build_version"):
+    elif str(info_option) in ("k", "kernel build version"):
         script.log.info('Calling kernel version function')
         kernelversion(script)
     elif str(info_option) in ("v", "virsh"):
         script.log.info('Calling virsh function')
         guests_created(script)
-    elif str(info_option) in ("i", "iostat_mpstat_vmstat_informations"):
+    elif str(info_option) in ("i", "iostat, mpstat, vmstat informations"):
         script.log.info('Calling iostat, mpstat, vmstat function')
         device_stats(script)
-    elif str(info_option) in ("cpu", "get_memory_and_cpu_information"):
+    elif str(info_option) in ("cpu", "get memory and cpu information"):
         script.log.info('Calling cpu information function')
         cpu_memory_match(script)
-    elif str(info_option) in ("eth", "get_ethernet_info"):
+    elif str(info_option) in ("eth", "get ethernet info"):
         script.log.info('Calling ethernet information function')
         ethernet_info(script)
     elif str(info_option) in ("t", "topology"):
@@ -140,7 +139,7 @@ def my_setup(script):
                        custom={
                            "get_info": {
                                "flags": ["--get_info"],
-                               "help": "Enter the required info option:[s/system_logs] [k/kernel_build_version] [cpu/get_memory_and_cpu_information] [eth/get_ethernet_info] [v/virsh] [t/topology] eg: for kernel version --get_info k",
+                               "help": "Enter the required info option:[s/system logs] [k/kernel build version] [cpu/get memory and cpu information] [v/virsh]  eg: for kernel version --get_info k",
                            },
                        },
                        conns={"conn": {"con_type": "rmc_cli"}},
@@ -150,11 +149,15 @@ def my_setup(script):
 
 
 if __name__ == "__main__":
-    script_obj = FtfScript(setup=my_setup, cleanup=standard_cleanup)
-    script_obj.setup()
-    script_obj.add_testcase(
+    script = FtfScript(setup=my_setup)
+    script.add_testcase(
         "Virtualization configs",
         test_code=virtualization_resource,
     )
-    script_obj.run()
-    script_obj.exit()
+    script.setup()
+    script.run()
+    script.log.info('=' * 30)
+    script.log.info(" " * 10 + "Summary")
+    script.log.info("\n".join(script.summaryReport))
+    script.log.info("Report Complete")
+    script.exit()
