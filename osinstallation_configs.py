@@ -5,18 +5,18 @@
    Check if the memory in CLI & OS are same.
    Firmware,kernel version.
    Driver and firmware version of ethernet cards.
-   Partition details. 
+   Partition details.
    Ethernet, storage and fibre channel information.
-   
-        
+
+
 usage: osinstallation_configs.py [-h] [--proto] [--get_info] [--partition]
 Ex:osinstallation_configs.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
   --partition            partition number (0 if running on p0)
   --get_info             [m/mem/memory]  [c/cpu] [e/eth/ethernet] [a/all] ....
-                         
-                        'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs, c/cpu- CPU count  ,  m/mem- memory claimed by OS ,' 
+
+                        'Enter v/osverify -Verification of OS installation  ,  sy/sys_logs - system logs, c/cpu- CPU count  ,  m/mem- memory claimed by OS ,'
                         'cl - clear cae logs , cae - cae logs e-eth_card verification, fm-Firmware version,par-partition details,k-kernel version'
                         'd- ethernet card firmware and driver version ,e/eth/fibre_ethernet_storage_details-fibre ethernet storage details,t/topology'
 Optional Arguments:
@@ -39,7 +39,7 @@ from tests.mcs.resource_check_os.get_os_resourse import *
 
 
 
-def os_verify(script):
+def osinstallation_verify(script):
 
     # Verification of OS installation and location of OS
 
@@ -57,29 +57,37 @@ def os_verify(script):
     script.log.info("="*15 +"Verification of OS installation" +"="*15)
     if disk2 in disk1:
         script.log.info("OS installation was verified")
+        script.summaryReport.append("#" * 10 + " OS installation verification")
+        script.summaryReport.append("OS installation is verified")
     else:
         script.error("OS installation error")
+        script.summaryReport.append("#" * 10 + " OS installation verification")
+        script.summaryReport.append("OS installation error")
     if "ATA" in ata_check:
         script.log.info("OS is installed on the hard disk")
+        script.summaryReport.append("OS is installed on the hard disk")
     elif "FC" in fc_check:
         script.log.info("OS is installed on FC")
+        script.summaryReport.append("OS is installed on FC")
 
     elif "MSCC" in mscc_check:
         script.log.info("OS is installed on FC")
+        script.summaryReport.append("OS is installed on FC")
 
     else:
         script.log.info("Failure")
 
+
 def system_log(script):
-    
+
     #Displaying cae logs on RMC
-        
+
     script.log.info("=" * 15 + "cae logs" + "=" * 15)
     cae_log=script.conn.run("show cae")
     script.log.info("The cae logs are:{}".format(cae_log))
-    
+
     #Displaying system logs on OS
-    
+
     par = script.par
     console = par.get_console_conn()
     #par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -95,7 +103,10 @@ def system_log(script):
         script.log.info("Errors exists. The dmseg log errors are:{}".format(driver_msg))
     else:
         script.log.info("no errors")
-    
+
+    script.summaryReport.append("#" * 10 + " Logs are displayed above")
+
+
 
 
 def cpu_match(script):
@@ -104,7 +115,7 @@ def cpu_match(script):
     npar_cpu_cores = str(int(get_match(r'Cores.*\s(\d+)', npar_details)) * 2)
 
     script.log.info("=" * 15 + "CPU" + "=" * 15)
-    script.summaryReport.append("#" * 10 + " CPU Summary")
+    #script.summaryReport.append("#" * 10 + " CPU Summary")
     par = script.par
     console = par.get_console_conn()
     # par.get_to_linux("Red Hat Enterprise Linux Server")
@@ -114,8 +125,17 @@ def cpu_match(script):
     script.log.info("=" * 15 + "Verification of CPU claimed by OS" + "=" * 15)
     if npar_cpu_cores == cpu_core:
         script.log.info("Number of CPU  matches in RMC and OS")
+        script.summaryReport.append("#" * 10 + " CPU Summary")
+        script.summaryReport.append("cpu cores in rmc:" + npar_cpu_cores )
+        script.summaryReport.append("cpu cores in os:" + cpu_core)
+        script.summaryReport.append("Number of CPU  matches in RMC and OS")
     else:
         script.log.info("Number of CPU mismatch in RMC and OS")
+        script.summaryReport.append("#" * 10 + " CPU Summary")
+        script.summaryReport.append("cpu cores in rmc:" + npar_cpu_cores)
+        script.summaryReport.append("cpu cores in os:" + cpu_core)
+        script.summaryReport.append("Number of CPU do not match in RMC and OS")
+
 
 
 def memory_match(script):
@@ -167,6 +187,8 @@ def firmware_info(script):
     expected_firmware = get_match(r'Expected(.*)', firmware_info)
     expected_firmware_version = get_match(r'[0-9].*', expected_firmware)
     script.log.info("The expected firmware version is {}".format(expected_firmware_version))
+    script.summaryReport.append("#" * 10 + " Firmware Info")
+    script.summaryReport.append("Firmware version is:" + expected_firmware_version)
 
 def par_details(script):
     chassis_info_cmd = script.conn.run("show chassis info")
@@ -180,6 +202,9 @@ def kernel_version(script):
     #par.get_to_linux("Red Hat Enterprise Linux Server")
     kernel_info_cmd = console.run("uname -r")
     script.log.info("kernel version:{}".format(kernel_info_cmd))
+    script.summaryReport.append("#" * 10 + " Kernel Info")
+    script.summaryReport.append("Firmware version is:" + kernel_info_cmd)
+
 
 def ethcard_details(script):
     """Driver and firmware version of ethernet cards"""
@@ -196,6 +221,7 @@ def ethcard_details(script):
         version_val=get_match(r'version:(.*)',ethtool_cmd)
         script.log.info("driver:{}".format(driver_val))
         script.log.info("version:{}".format(version_val))
+
 
 
 def fibre_ethernet_storage_details(script):
@@ -231,7 +257,7 @@ def topology(script):
     script.summaryReport.append("Total Number of Network Controllers = " + network)
 
 def get_all(script):
-    os_verify(script)
+    osinstallation_verify(script)
     system_log(script)
     cpu_match(script)
     memory_match(script)
@@ -256,7 +282,7 @@ def OS_configs(script):
              sys.exit()
         elif str(info_option) in ("v", "osverify"):
             script.log.info('Calling os verification function')
-            os_verify(script)
+            osinstallation_verify(script)
         elif str(info_option) in ("sy", "sys_logs"):
             script.log.info('Calling sys_log function')
             system_log(script)
@@ -315,8 +341,8 @@ if __name__ == "__main__":
     script.add_testcase("OS_configs", test_code=OS_configs)
     script.setup()
     script.run()
-script.log.info('=' * 30)
-script.log.info(" " * 10 + "Summary")
-script.log.info("\n".join(script.summaryReport))
-script.log.info("Report Complete")
-script.exit()
+    script.log.info('=' * 30)
+    script.log.info(" " * 10 + "Summary")
+    script.log.info("\n".join(script.summaryReport))
+    script.log.info("Report Complete")
+    script.exit()
