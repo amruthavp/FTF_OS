@@ -3,17 +3,17 @@
    Displaying system logs.
    Checks if the firmware version is same in RMC and OS.
    Driver and firmware version of ethernet cards.
-   
-   
-        
+
+
+
 usage: customiso_configs.py [-h] [--proto] [--get_info] [--partition]
 Ex:customiso_configs.py --proto ah-010-rmc --partition 0
 Required Arguments:
   --proto                Name or IP address of System Under Test/proto
   --partition            partition number (0 if running on p0)
   --get_info             [c/clear_cae] [s/system_logs] [f/firmware] [d/ethcard_details] [a/all]
-                         
-                 
+
+
 Optional Arguments:
   -h, -?, --help        show this help message and exit
 """
@@ -40,7 +40,9 @@ def ethcarddetails(script):
     ethcard_details(script)
 
 def firmware_info(script):
-   """ Checks if the firmware version is same in RMC and OS."""
+
+    """ Checks if the firmware version is same in RMC and OS."""
+
     firmware_details = script.conn.run("show firmware verbose")
     buff= get_match(r'Expected(.*)', firmware_details)
     firmware_version_rmc = get_match(r'[0-9].*', buff)
@@ -51,10 +53,15 @@ def firmware_info(script):
     firmware_vcmd = console.sendex('dmidecode -s bios-version\r')
     firmware_version_os= get_match(r'Bundle:(.*)\s[A-Z].*',firmware_vcmd)
     firmware_version_os=firmware_version_os.strip()
+
     if firmware_version_rmc==firmware_version_os:
         script.log.info("The firmware versions match in the RMC and OS console")
+        script.summaryReport.append("#" * 10 + " Firmware version verification")
+        script.summaryReport.append("The firmware versions match in the RMC and OS console")
     else:
         script.log.info("The firmware versions do not match")
+        script.summaryReport.append("#" * 10 + " Firmware version verification")
+        script.summaryReport.append("The firmware versions do not match in the RMC and OS console")
 
 
 def CustomISO_resource(script):
