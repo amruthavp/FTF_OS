@@ -1,6 +1,6 @@
 """Script to get information on Secureboot configurations:
   system logs
-  kernel version 
+  kernel version
   Secureboot status from OS
   Secureboot and Secureboot Next status from RMC .
 usage : secureboot_configs.py [--proto PROTO] [--partition PARTITION] [--get_info option]
@@ -27,12 +27,12 @@ import sys
 
 
 def kernelversion(script):
-        
-    """ Displaying kernel version """    
+
+    """ Displaying kernel version """
     kernel_version(script)
 
 def boot_status_os(script):
-        
+
     """ Checking secureboot status on the OS console"""
 
     par = script.par
@@ -42,11 +42,15 @@ def boot_status_os(script):
     boot_state_os = get_match(r'disabled',boot_state)
     if boot_state_os== "disabled":
         script.log.info("Secure boot is disabled in OS")
+        script.summaryReport.append("#" * 10 + " Secureboot status on OS")
+        script.summaryReport.append("The secureboot is disabled on the OS")
     else:
         script.log.info("Secure boot is enabled in OS")
+        script.summaryReport.append("#" * 10 + " Secureboot status on OS")
+        script.summaryReport.append("The secureboot is enabled on the OS")
 
 def boot_status_rmc(script):
-        
+
     """Checking the secureboot and secureboot next status on the RMC console """
 
     conn = script.conn
@@ -56,21 +60,28 @@ def boot_status_rmc(script):
     securebootnext_state= get_match(r'.*Secure\sBoot\sNext\s.*:\s(.*)', npar_details)
     if secureboot_state == "Off":
         script.log.info("The Secure Boot is Off in rmc")
+        script.summaryReport.append("#" * 10 + " Secureboot status in RMC")
+        script.summaryReport.append("The secureboot is disabled on RMC")
     else:
         script.log.info("The Secure Boot is On in rmc")
+        script.summaryReport.append("#" * 10 + " Secureboot status in RMC")
+        script.summaryReport.append("The secureboot is enabled on RMC")
+
     if securebootnext_state == "Off":
         script.log.info("The Secure Boot Next is Off in rmc")
+        script.summaryReport.append("The secureboot next is disabled on RMC")
     else:
         script.log.info("The Secure Boot Next is On in rmc")
-                                 
+        script.summaryReport.append("The secureboot next is enabled on RMC")
+
 def systemlog(script):
-        
+
     """Displaying cae logs from RMC console, syslog and dmesg from OS console"""
     system_log(script)
-        
+
 
 def secureboot_resource(script):
-        
+
     conn = script.conn
     info_option = script.args.get_info
     if str(info_option) == '-h':
@@ -119,12 +130,11 @@ def my_setup(script):
 
 if __name__ == "__main__":
     script = FtfScript(setup=my_setup)
-    script.add_testcase("CustomISO_resource", test_code=CustomISO_resource)
+    script.add_testcase("secureboot_resource", test_code=secureboot_resource)
     script.setup()
     script.run()
-    script.log.info('=' * 30)
-    script.log.info(" " * 10 + "Summary")
-    script.log.info("\n".join(script.summaryReport))
-    script.log.info("Report Complete")
-    script.exit()
-
+script.log.info('=' * 30)
+script.log.info(" " * 10 + "Summary")
+script.log.info("\n".join(script.summaryReport))
+script.log.info("Report Complete")
+script.exit()
